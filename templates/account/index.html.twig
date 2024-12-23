@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}-Compte{% endblock %}
+
+{% block body %}
+    <!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Fresh and Organic</p>
+						<h1>Compte Utilisateur</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <!-- contact form -->
+	<div class="contact-from-section mt-100 mb-150">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 mb-5 mb-lg-0">
+					<div class="form-title">
+						<h2>Espace membre privé</h2>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, ratione! Laboriosam est, assumenda. Perferendis, quo alias quaerat aliquid. Corporis ipsum minus voluptate? Dolore, esse natus!</p>
+					</div>
+
+					<h3>
+						<a href="{{ path('app_account_modifierpassword') }}">Modifier Mon Mot de passe ?</a>
+					</h3>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- end contact form -->
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}-Connexion{% endblock %}
+
+{% block body %}
+    <!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Fresh and Organic</p>
+						<h1>Connexion</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <!-- contact form -->
+	<div class="contact-from-section mt-100 mb-150">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 mb-5 mb-lg-0">
+					<div class="form-title">
+						<h2>Formulaire de connexion</h2>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, ratione! Laboriosam est, assumenda.
+							Perferendis, quo alias quaerat aliquid. Corporis ipsum minus voluptate? Dolore, esse natus!</p>
+					</div>
+
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+
+                    <form action="{{ path('user_login') }}" method="post">
+                        <label for="username" class="sr-only">Email</label>
+                        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control mb-4" placeholder="Email" required autofocus>
+
+                        <label for="inputPassword" class="sr-only">Mot de passe</label>
+                        <input type="password" name="_password" id="inputPassword" class="form-control mb-4" placeholder="Mot de passe" required>
+
+                        <input type="hidden" name="_target_path" value="{{ path('app_account') }}">
+                        <button class="btn btn-lg btn-success  btn-block" type="submit">
+                            Connexion
+                        </button>
+					</form>
+					<p class="mt-5">Vous n'avez pas de compte : <a href="{{ path('app_register') }}">Je m'inscrire!</a></p>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- end contact form -->
+
+{% endblock %}

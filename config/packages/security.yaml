@@ -4,14 +4,53 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory: { memory: null }
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
     firewalls:
         dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            pattern: ^/(_(profiler|wdt)|(dist|css|js)|css|images|js)/
             security: false
-        main:
-            lazy: true
-            provider: users_in_memory
+
+        admin:
+#            pattern: ^/admin
+            provider: app_user_provider
+#            stateless: false
+            form_login:
+                login_path: admin_login
+                check_path: admin_login
+                default_target_path: admin_dasboard
+#                username_parameter: email
+#                password_parameter: password
+            logout:
+                path: admin_logout
+                target: admin_login
+            access_denied_url: admin_dasboard  # redirection en cas d'accès interdit
+
+        user:
+#            pattern: ^/user
+            provider: app_user_provider
+#            stateless: false
+            form_login:
+                login_path: user_login
+                check_path: user_login
+#                default_target_path: /user/dashboard
+#                username_parameter: email
+#                password_parameter: password
+            logout:
+                path: user_logout
+                target: user_login
+
+#        main:
+#            logout:
+#                path: app_logout
+#            form_login:
+#                login_path: app_login
+#                check_path: app_login
+#            lazy: true
+#            provider: app_user_provider
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -22,8 +61,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/compte, roles: ROLE_USER }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+#        - { path: ^/profile, roles: ROLE_USER }
+#        - { path: /admin/dasboard, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
 
 when@test:
     security:

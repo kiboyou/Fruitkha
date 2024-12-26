@@ -1,0 +1,120 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Liste des Approvisionnements{% endblock %}
+
+{% block body %}
+
+    {% include 'admin/_menu.html.twig' %}
+
+    <section class="is-hero-bar">
+        <div class="flex flex-col items-center justify-between space-y-6 md:flex-row md:space-y-0">
+            <h1 class="title">
+                Liste des Approvisionnements
+            </h1>
+        </div>
+    </section>
+
+    <section class="is-hero-bar">
+        <div class="flex flex-col items-center justify-between space-y-6 md:flex-row md:space-y-0">
+            <h1 class="title">
+
+            </h1>
+            <a href="{{ path('app_approvisionnement_new') }}">
+                <button class="button-ajout">Créer un nouvel approvisionnement</button>
+            </a>
+        </div>
+    </section>
+
+    <section class="section main-section">
+        {% if approvisionnements|length == 0 %}
+        <div class="card empty">
+            <div class="card-content">
+                <div>
+                    <span class="icon large"><i class="mdi mdi-emoticon-sad mdi-48px"></i></span>
+                </div>
+                <p>Aucun approvisionnement trouvé</p>
+            </div>
+        </div>
+        {% else %}
+        <div class="card has-table">
+            <div class="card-content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Quantité Ajoutée</th>
+                            <th scope="col">Date de Création</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for approvisionnement in approvisionnements %}
+                        <tr>
+                            <td>{{ approvisionnement.id }}</td>
+                            <td>{{ approvisionnement.quantiteAjouter }}</td>
+                            <td>{{ approvisionnement.createdAt ? approvisionnement.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                            <td class="actions-cell">
+                                <div class="buttons items-center nowrap">
+                                    <!-- Bouton Voir -->
+{#                                    <a href="{{ path('app_approvisionnement_show', {'id': approvisionnement.id}) }}" class="button small blue">#}
+{#                                        <span class="icon"><i class="mdi mdi-eye"></i></span>#}
+{#                                        Voir#}
+{#                                    </a>#}
+                                    <!-- Bouton Modifier -->
+                                    <a href="{{ path('app_approvisionnement_edit', {'id': approvisionnement.id}) }}" class="button small blue">
+                                        <span class="icon"><i class="mdi mdi-border-color"></i></span>
+                                        Modifier
+                                    </a>
+                                    <!-- Bouton Supprimer -->
+                                    <form action="{{ path('app_approvisionnement_delete', {'id': approvisionnement.id}) }}" method="post" class="inline-block"
+                                        onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet approvisionnement ?');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ approvisionnement.id) }}">
+                                        <button class="button small red" type="submit">
+                                            <span class="icon"><i class="mdi mdi-trash-can"></i></span>
+                                            Supprimer
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="table-pagination">
+                    <div class="pagination-container">
+                        <ul class="pagination pagination-sm">
+                            <!-- Précédent -->
+                            <li class="page-item prev">
+                                <a class="page-link disabled" href="#">
+                                    <i class="mdi mdi-chevron-left"></i>
+                                </a>
+                            </li>
+                            <!-- Exemple de pages -->
+                            <li class="page-item">
+                                <a class="page-link active" href="#">1</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">3</a>
+                            </li>
+                            <!-- Suivant -->
+                            <li class="page-item next">
+                                <a class="page-link" href="#">
+                                    <i class="mdi mdi-chevron-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="page-info">
+                            <span>Page 1 of 3</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </section>
+
+{% endblock %}

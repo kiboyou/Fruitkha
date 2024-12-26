@@ -62,7 +62,6 @@ table {
   border-color: inherit;
 }
 
-
 button,
 input,
 optgroup,
@@ -1863,4 +1862,9 @@ footer {
 
 .submit-btn:hover {
   background-color: #015b9b;
+}
+
+.fruit-image {
+    width: 1rem; /* Largeur de l'image */
+    height: auto; /* Hauteur ajustée proportionnellement */
 }

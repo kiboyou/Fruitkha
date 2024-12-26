@@ -1,0 +1,86 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}-Dashboard{% endblock %}
+
+{% block body %}
+
+{% include 'admin/_menu.html.twig' %}
+
+<section class="is-hero-bar">
+    <div class="flex flex-col items-center justify-between space-y-6 md:flex-row md:space-y-0">
+        <h1 class="title">
+            Liste des PanierItems
+        </h1>
+    </div>
+</section>
+
+<section class="is-hero-bar">
+    <div class="flex flex-col items-center justify-between space-y-6 md:flex-row md:space-y-0">
+        <h1 class="title"></h1>
+        <a href="{{ path('app_panier_item_new') }}">
+            <button class="button-ajout">Créer un nouveau PanierItem</button>
+        </a>
+    </div>
+</section>
+
+<section class="section main-section">
+    {% if panier_items|length == 0 %}
+    <div class="card empty">
+        <div class="card-content">
+            <div>
+                <span class="icon large"><i class="mdi mdi-emoticon-sad mdi-48px"></i></span>
+            </div>
+            <p>Aucun PanierItem trouvé...</p>
+        </div>
+    </div>
+    {% else %}
+    <div class="card has-table">
+        <div class="card-content">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Quantité</th>
+                        <th scope="col">Prix Sous-total</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for panier_item in panier_items %}
+                        <tr>
+                            <td>{{ panier_item.id }}</td>
+                            <td>{{ panier_item.quantite }}</td>
+                            <td>{{ panier_item.prixSousTotal }}</td>
+                            <td class="actions-cell">
+                                <div class="buttons items-center nowrap">
+                                    <!-- Bouton Voir -->
+                                    <a href="{{ path('app_panier_item_show', {'id': panier_item.id}) }}" class="button small green">
+                                        <span class="icon"><i class="mdi mdi-eye"></i></span>
+                                        Voir
+                                    </a>
+                                    <!-- Bouton Éditer -->
+                                    <a href="{{ path('app_panier_item_edit', {'id': panier_item.id}) }}" class="button small blue">
+                                        <span class="icon"><i class="mdi mdi-border-color"></i></span>
+                                        Éditer
+                                    </a>
+                                    <!-- Bouton Supprimer -->
+                                    <form action="{{ path('app_panier_item_delete', {'id': panier_item.id}) }}" method="post" class="inline-block"
+                                        onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément du panier ?');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ panier_item.id) }}">
+                                        <button class="button small red" type="submit">
+                                            <span class="icon"><i class="mdi mdi-trash-can"></i></span>
+                                            Supprimer
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</section>
+
+{% endblock %}

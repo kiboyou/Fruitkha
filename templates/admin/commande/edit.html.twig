@@ -1,0 +1,73 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Éditer Commande{% endblock %}
+
+{% block body %}
+
+{% include 'admin/_menu.html.twig' %}
+
+<section class="is-hero-bar">
+    <div class="flex flex-col items-center justify-between space-y-6 md:flex-row md:space-y-0">
+        <h1 class="title">
+            Modifier la commande
+        </h1>
+    </div>
+</section>
+
+<section class="section main-section">
+    <div class="card">
+        <div class="card-content">
+            {{ form_start(form, { 'attr': {'class': 'form'} }) }}
+
+                 <div class="field">
+                    {{ form_label(form.client, 'Client', { 'label_attr': { 'class': 'label' } }) }}
+                    <div class="control">
+                        {{ form_widget(form.client, { 'attr': { 'class': 'input' } }) }}
+                    </div>
+                </div>
+            <div class="field">
+                    {{ form_label(form.facture, 'Facture', { 'label_attr': { 'class': 'label' } }) }}
+                    <div class="control">
+                        {{ form_widget(form.facture, { 'attr': { 'class': 'input' } }) }}
+                    </div>
+                </div>
+                <div class="field">
+                    {{ form_label(form.date_commande, 'Date de commande', { 'label_attr': { 'class': 'label' } }) }}
+                    <div class="control">
+                        {{ form_widget(form.date_commande, { 'attr': { 'class': 'input' } }) }}
+                    </div>
+                </div>
+
+                <div class="field">
+                    {{ form_label(form.status, 'Statut', { 'label_attr': { 'class': 'label' } }) }}
+                    <div class="control">
+                        {{ form_widget(form.status, { 'attr': { 'class': 'input' } }) }}
+                    </div>
+                </div>
+
+                <div class="field">
+                    {{ form_label(form.addresse_livraison, 'Adresse de livraison', { 'label_attr': { 'class': 'label' } }) }}
+                    <div class="control">
+                        {{ form_widget(form.addresse_livraison, { 'attr': { 'class': 'input' } }) }}
+                    </div>
+                </div>
+
+                <div class="field">
+                    {{ form_label(form.mode_paiement, 'Mode de paiement', { 'label_attr': { 'class': 'label' } }) }}
+                    <div class="control">
+                        {{ form_widget(form.mode_paiement, { 'attr': { 'class': 'input' } }) }}
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <button class="button green">{{ button_label|default('Mettre a jours') }}</button>
+                    </div>
+                </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

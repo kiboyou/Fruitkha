@@ -1,0 +1,60 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modifier Fournisseur{% endblock %}
+
+{% block body %}
+
+    {% include 'admin/_menu.html.twig' %}
+
+    <section class="is-hero-bar">
+        <div class="flex flex-col items-center justify-between space-y-6 md:flex-row md:space-y-0">
+            <h1 class="title">
+                Modifier le fournisseur
+            </h1>
+        </div>
+    </section>
+
+    <section class="section main-section">
+        <div class="card">
+            <div class="card-content">
+                {{ form_start(form, { 'attr': {'class': 'form'} }) }}
+
+                    <div class="field">
+                        {{ form_label(form.nom, 'Nom', { 'label_attr': { 'class': 'label' } }) }}
+                        <div class="control">
+                            {{ form_widget(form.nom, { 'attr': { 'class': 'input' } }) }}
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        {{ form_label(form.prenom, 'Prénom', { 'label_attr': { 'class': 'label' } }) }}
+                        <div class="control">
+                            {{ form_widget(form.prenom, { 'attr': { 'class': 'input' } }) }}
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        {{ form_label(form.email, 'Email', { 'label_attr': { 'class': 'label' } }) }}
+                        <div class="control">
+                            {{ form_widget(form.email, { 'attr': { 'class': 'input' } }) }}
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        {{ form_label(form.telephone, 'Téléphone', { 'label_attr': { 'class': 'label' } }) }}
+                        <div class="control">
+                            {{ form_widget(form.telephone, { 'attr': { 'class': 'input' } }) }}
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="control">
+                            <button class="button green">{{ button_label|default('Mettre à jour') }}</button>
+                        </div>
+                    </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}

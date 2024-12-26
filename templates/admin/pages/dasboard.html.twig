@@ -11,12 +11,12 @@
     <h1 class="title">
       Dashboard
     </h1>
-{#    <button class="button light">Button</button>#}
   </div>
 </section>
 
 <section class="section main-section">
     <div class="grid gap-6 grid-cols-1 md:grid-cols-3 mb-6">
+      <!-- Clients Count -->
       <div class="card">
         <div class="card-content">
           <div class="flex items-center justify-between">
@@ -25,13 +25,15 @@
                 Clients
               </h3>
               <h1>
-                512
+                {{ clientsCount }} <!-- Remplace par la variable dynamique de comptage des clients -->
               </h1>
             </div>
             <span class="icon widget-icon text-green-500"><i class="mdi mdi-account-multiple mdi-48px"></i></span>
           </div>
         </div>
       </div>
+
+      <!-- Sales Count -->
       <div class="card">
         <div class="card-content">
           <div class="flex items-center justify-between">
@@ -40,7 +42,7 @@
                 Sales
               </h3>
               <h1>
-                $7,770
+                {{ salesAmount }} <!-- Remplace par la variable dynamique du montant des ventes -->
               </h1>
             </div>
             <span class="icon widget-icon text-blue-500"><i class="mdi mdi-cart-outline mdi-48px"></i></span>
@@ -48,6 +50,7 @@
         </div>
       </div>
 
+      <!-- Performance Count -->
       <div class="card">
         <div class="card-content">
           <div class="flex items-center justify-between">
@@ -56,41 +59,65 @@
                 Performance
               </h3>
               <h1>
-                256%
+{#                {{ performancePercentage }}% <!-- Remplace par la variable dynamique de performance -->#}
               </h1>
             </div>
             <span class="icon widget-icon text-red-500"><i class="mdi mdi-finance mdi-48px"></i></span>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="card mb-6">
-      <header class="card-header">
-        <p class="card-header-title">
-          <span class="icon"><i class="mdi mdi-finance"></i></span>
-          Performance
-        </p>
-        <a href="#" class="card-header-icon">
-          <span class="icon"><i class="mdi mdi-reload"></i></span>
-        </a>
-      </header>
-      <div class="card-content">
-        <div class="chart-area">
-          <div class="h-full">
-            <div class="chartjs-size-monitor">
-              <div class="chartjs-size-monitor-expand">
-                <div></div>
-              </div>
-              <div class="chartjs-size-monitor-shrink">
-                <div></div>
-              </div>
+      <!-- Products Count -->
+      <div class="card">
+        <div class="card-content">
+          <div class="flex items-center justify-between">
+            <div class="widget-label">
+              <h3>
+                Products
+              </h3>
+              <h1>
+                {{ productsCount }} <!-- Remplace par la variable dynamique du nombre de produits -->
+              </h1>
             </div>
-            <canvas id="big-line-chart" width="2992" height="1000" class="chartjs-render-monitor block" style="height: 400px; width: 1197px;"></canvas>
+            <span class="icon widget-icon text-yellow-500"><i class="mdi mdi-cube-outline mdi-48px"></i></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Orders Count -->
+      <div class="card">
+        <div class="card-content">
+          <div class="flex items-center justify-between">
+            <div class="widget-label">
+              <h3>
+                Orders
+              </h3>
+              <h1>
+                {{ ordersCount }} <!-- Remplace par la variable dynamique du nombre de commandes -->
+              </h1>
+            </div>
+            <span class="icon widget-icon text-purple-500"><i class="mdi mdi-package-variant-closed mdi-48px"></i></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payments Count -->
+      <div class="card">
+        <div class="card-content">
+          <div class="flex items-center justify-between">
+            <div class="widget-label">
+              <h3>
+                Payments
+              </h3>
+              <h1>
+{#                {{ paymentsCount }} <!-- Remplace par la variable dynamique du nombre de paiements -->#}
+              </h1>
+            </div>
+            <span class="icon widget-icon text-orange-500"><i class="mdi mdi-credit-card mdi-48px"></i></span>
           </div>
         </div>
       </div>
     </div>
-  </section>
+</section>
 
 {% endblock %}

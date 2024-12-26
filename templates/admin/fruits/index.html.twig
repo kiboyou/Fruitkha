@@ -1,0 +1,96 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}-Dashboard{% endblock %}
+
+{% block body %}
+
+{% include 'admin/_menu.html.twig' %}
+
+<section class="is-hero-bar">
+    <div class="flex flex-col items-center justify-between space-y-6 md:flex-row md:space-y-0">
+        <h1 class="title">
+            Liste des Fruits
+        </h1>
+    </div>
+</section>
+
+<section class="is-hero-bar">
+    <div class="flex flex-col items-center justify-between space-y-6 md:flex-row md:space-y-0">
+        <h1 class="title"></h1>
+        <a href="{{ path('app_fruits_new') }}">
+            <button class="button-ajout">Créer un nouveau fruit</button>
+        </a>
+    </div>
+</section>
+
+<section class="section main-section">
+    {% if fruits|length == 0 %}
+    <div class="card empty">
+        <div class="card-content">
+            <div>
+                <span class="icon large"><i class="mdi mdi-emoticon-sad mdi-48px"></i></span>
+            </div>
+            <p>Aucun fruit trouvé...</p>
+        </div>
+    </div>
+    {% else %}
+    <div class="card has-table">
+        <div class="card-content">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prix</th>
+                        <th scope="col">Quantité</th>
+                        <th scope="col">Illustration</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fruit in fruits %}
+                        <tr>
+                            <td>{{ fruit.id }}</td>
+                            <td>{{ fruit.nom }}</td>
+                            <td>{{ fruit.prix }}</td>
+                            <td>{{ fruit.quantite }}</td>
+                            <td>
+                                {% if fruit.illustration %}
+                                    <img src="{{ asset('uploads/fruit_illustrations/' ~ fruit.illustration) }}" alt="{{ fruit.nom }}" class="fruit-image" width="100">
+                                {% else %}
+                                    <span>Aucune</span>
+                                {% endif %}
+                            </td>
+                            <td class="actions-cell">
+                                <div class="buttons items-center nowrap">
+                                    <!-- Bouton Voir -->
+{#                                    <a href="{{ path('app_fruits_show', {'id': fruit.id}) }}" class="button small green">#}
+{#                                        <span class="icon"><i class="mdi mdi-eye"></i></span>#}
+{#                                        Voir#}
+{#                                    </a>#}
+                                    <!-- Bouton Éditer -->
+                                    <a href="{{ path('app_fruits_edit', {'id': fruit.id}) }}" class="button small blue">
+                                        <span class="icon"><i class="mdi mdi-border-color"></i></span>
+                                        Éditer
+                                    </a>
+                                    <!-- Bouton Supprimer -->
+                                    <form action="{{ path('app_fruits_delete', {'id': fruit.id}) }}" method="post" class="inline-block"
+                                        onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce fruit ?');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ fruit.id) }}">
+                                        <button class="button small red" type="submit">
+                                            <span class="icon"><i class="mdi mdi-trash-can"></i></span>
+                                            Supprimer
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</section>
+
+{% endblock %}

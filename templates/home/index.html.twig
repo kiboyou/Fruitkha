@@ -111,40 +111,141 @@
 
 
 	<!-- product section -->
+	<!-- product section -->
 	<div class="product-section mt-150 mb-150">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="section-title">
-						<h3><span class="orange-text">Nos</span> Produits</h3>
-						<p>Découvrez notre sélection de fruits frais et savoureux, soigneusement cultivés pour offrir la meilleure qualité à nos clients.</p>
+						<h3><span class="orange-text">Nos</span> Fruits</h3>
+						<p>Découvrez nos fruits frais et délicieux, cultivés avec soin et disponibles à des prix abordables.</p>
 					</div>
 				</div>
 			</div>
 
+			<!-- Barre de recherche -->
 			<div class="row">
-				{# Afficher les fruits #}
+				<div class="col-12 text-center mb-4">
+					<input type="text" id="searchInput" class="form-control" placeholder="Rechercher un fruit...">
+				</div>
+			</div>
+
+			<!-- Liste des produits -->
+			<div class="row" id="productList">
+				{# Initial display of fruits (on page load) #}
 				{% for fruit in fruits %}
-					<div class="col-lg-4 col-md-6 text-center">
+					<div class="col-lg-4 col-md-6 text-center fruit-item">
 						<div class="single-product-item">
 							<div class="product-image">
-								{# Vérifier si le fruit a une illustration #}
 								<a href="{{ path('app_fruits_show', {'id': fruit.id}) }}">
 									<img src="{{ asset('uploads/fruit_illustrations/' ~ fruit.illustration) }}" alt="{{ fruit.nom }}">
 								</a>
 							</div>
 							<h3>{{ fruit.nom }}</h3>
-							<p class="product-price"><span>Par Kg</span> {{ fruit.prix }}$</p>
+							<p class="product-price"><span>Par Kg</span> {{ fruit.prix }}€</p>
 							<a href="{{ path('app_fruit_details', {'id': fruit.id}) }}" class="cart-btn">
 								<i class="fas fa-shopping-cart"></i> Voir Détails
 							</a>
-
 						</div>
 					</div>
 				{% endfor %}
 			</div>
+
+			<!-- Pagination -->
+			<div class="pagination-container text-center mt-4">
+				<button id="prevPage" class="btn btn-warning ">Précédent</button>
+				<span id="pageNumber">1</span>
+				<button id="nextPage" class="btn btn-warning">Suivant</button>
+			</div>
 		</div>
 	</div>
+	<!-- end product section -->
+
+	{# Ajouter le script de pagination et de recherche #}
+	<script>
+		let allFruitsData = [];
+		let fruitsData = [];
+		let currentPage = 1;
+		const fruitsPerPage = 3;
+
+		// Récupérer les fruits via AJAX
+		fetch('{{ path('app_fruits_json') }}')
+				.then(response => response.json())
+				.then(data => {
+					allFruitsData = data; // Stocker tous les fruits
+					fruitsData = data;    // Initialiser fruitsData
+					displayFruits();
+				});
+
+		// Afficher les fruits pour la page courante
+		function displayFruits() {
+			const start = (currentPage - 1) * fruitsPerPage;
+			const end = start + fruitsPerPage;
+			const fruitsToDisplay = fruitsData.slice(start, end);
+
+			// Vider la liste de fruits avant de les réafficher
+			const productList = document.getElementById('productList');
+			productList.innerHTML = '';
+
+			fruitsToDisplay.forEach(fruit => {
+				const fruitElement = document.createElement('div');
+				fruitElement.classList.add('col-lg-4', 'col-md-6', 'text-center', 'fruit-item');
+				fruitElement.innerHTML = `
+                <div class="single-product-item">
+                    <div class="product-image">
+                        <a href="/fruit/${fruit.id}">
+                            <img src="/uploads/fruit_illustrations/${fruit.illustration}" alt="${fruit.nom}">
+                        </a>
+                    </div>
+                    <h3>${fruit.nom}</h3>
+                    <p class="product-price"><span>Par Kg</span> ${fruit.prix}€</p>
+                    <a href="/fruit/${fruit.id}" class="cart-btn">
+                        <i class="fas fa-shopping-cart"></i> Voir Détails
+                    </a>
+                </div>
+            `;
+				productList.appendChild(fruitElement);
+			});
+
+			// Mise à jour du numéro de page
+			document.getElementById('pageNumber').textContent = currentPage;
+		}
+
+		// Fonction de recherche
+		document.getElementById('searchInput').addEventListener('input', function() {
+			const searchQuery = this.value.toLowerCase();
+
+			// Si la recherche est vide, réinitialiser la liste des fruits
+			if (searchQuery === '') {
+				fruitsData = allFruitsData;  // Remettre tous les fruits
+			} else {
+				fruitsData = allFruitsData.filter(fruit => fruit.nom.toLowerCase().includes(searchQuery));
+			}
+
+			// Retour à la première page après une nouvelle recherche
+			currentPage = 1;
+			displayFruits();
+		});
+
+		// Pagination : Précédent
+		document.getElementById('prevPage').addEventListener('click', () => {
+			if (currentPage > 1) {
+				currentPage--;
+				displayFruits();
+			}
+		});
+
+		// Pagination : Suivant
+		document.getElementById('nextPage').addEventListener('click', () => {
+			const totalPages = Math.ceil(fruitsData.length / fruitsPerPage);
+			if (currentPage < totalPages) {
+				currentPage++;
+				displayFruits();
+			}
+		});
+	</script>
+
+
 	<!-- end product section -->
 
 

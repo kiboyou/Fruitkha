@@ -5,6 +5,7 @@ namespace App\Controller\client;
 use App\Entity\Fruits;
 use App\Repository\FruitsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -36,6 +37,27 @@ class HomeController extends AbstractController
         return $this->render('home/show.html.twig', [
             'fruit' => $fruit
         ]);
+    }
+
+
+
+    #[Route('/fruits/json', name: 'app_fruits_json')]
+    public function getFruitsJson(FruitsRepository $fruitsRepository): JsonResponse
+    {
+        $fruits = $fruitsRepository->findAll();
+
+        // Convertir les fruits en tableau
+        $fruitData = [];
+        foreach ($fruits as $fruit) {
+            $fruitData[] = [
+                'id' => $fruit->getId(),
+                'nom' => $fruit->getNom(),
+                'prix' => $fruit->getPrix(),
+                'illustration' => $fruit->getIllustration(),
+            ];
+        }
+
+        return new JsonResponse($fruitData); // Retourner les fruits sous forme de JSON
     }
 
 }

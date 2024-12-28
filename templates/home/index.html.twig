@@ -109,53 +109,46 @@
 	</div>
 	<!-- end features list section -->
 
+
 	<!-- product section -->
 	<div class="product-section mt-150 mb-150">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="section-title">
-						<h3><span class="orange-text">Our</span> Products</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, fuga quas itaque eveniet beatae optio.</p>
+						<h3><span class="orange-text">Nos</span> Produits</h3>
+						<p>Découvrez notre sélection de fruits frais et savoureux, soigneusement cultivés pour offrir la meilleure qualité à nos clients.</p>
 					</div>
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="col-lg-4 col-md-6 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="single-product.html"><img src="{{ asset('/img/products/product-img-1.jpg') }}" alt=""></a>
+				{# Afficher les fruits #}
+				{% for fruit in fruits %}
+					<div class="col-lg-4 col-md-6 text-center">
+						<div class="single-product-item">
+							<div class="product-image">
+								{# Vérifier si le fruit a une illustration #}
+								<a href="{{ path('app_fruits_show', {'id': fruit.id}) }}">
+									<img src="{{ asset('uploads/fruit_illustrations/' ~ fruit.illustration) }}" alt="{{ fruit.nom }}">
+								</a>
+							</div>
+							<h3>{{ fruit.nom }}</h3>
+							<p class="product-price"><span>Par Kg</span> {{ fruit.prix }}$</p>
+							<a href="{{ path('app_fruit_details', {'id': fruit.id}) }}" class="cart-btn">
+								<i class="fas fa-shopping-cart"></i> Voir Détails
+							</a>
+
 						</div>
-						<h3>Strawberry</h3>
-						<p class="product-price"><span>Per Kg</span> 85$ </p>
-						<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
 					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="single-product.html"><img src="{{ asset('/img/products/product-img-2.jpg') }}" alt=""></a>
-						</div>
-						<h3>Berry</h3>
-						<p class="product-price"><span>Per Kg</span> 70$ </p>
-						<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 offset-md-3 offset-lg-0 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="single-product.html"><img src="{{ asset('/img/products/product-img-3.jpg') }}" alt=""></a>
-						</div>
-						<h3>Lemon</h3>
-						<p class="product-price"><span>Per Kg</span> 35$ </p>
-						<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-					</div>
-				</div>
+				{% endfor %}
 			</div>
 		</div>
 	</div>
 	<!-- end product section -->
+
+
+
 
 	<!-- cart banner section -->
 	<section class="cart-banner pt-100 pb-100">

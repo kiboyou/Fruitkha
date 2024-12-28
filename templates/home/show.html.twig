@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Fruit - {{ fruit.nom }}{% endblock %}
+
+{% block body %}
+    <div class="product-details mt-150 mb-5">
+        <div class="container">
+            <div class="row">
+                <!-- Colonne pour l'image du fruit -->
+                <div class="col-lg-6 col-md-12 text-center">
+                    <div class="product-image">
+                        <img src="{{ asset('uploads/fruit_illustrations/' ~ fruit.illustration) }}" alt="{{ fruit.nom }}" class="img-fluid rounded shadow-sm">
+                    </div>
+                </div>
+
+                <!-- Colonne pour les détails du fruit -->
+                <div class="col-lg-6 col-md-12">
+                    <div class="product-info">
+                        <h1 class="product-name">{{ fruit.nom }}</h1>
+                        <div class="price-and-quantity">
+                            <p class="product-price"><span>Prix :</span> {{ fruit.prix }}€</p>
+                            <p class="product-quantity"><strong>Quantité disponible :</strong> {{ fruit.quantite }} unités</p>
+                        </div>
+                        
+                        <!-- Bouton Ajouter au Panier -->
+                        <div class="d-flex justify-content-start mt-4">
+                            <a   class="cart-btn">
+                                <i class="fas fa-shopping-cart"></i> Ajouter au Panier
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

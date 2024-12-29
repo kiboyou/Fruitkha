@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}-Récapitulatif de votre commande{% endblock %}
+
+{% block body %}
+    <div class="breadcrumb-section breadcrumb-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 text-center">
+                    <div class="breadcrumb-text">
+                        <h1>Details de votre commande n° <span style="font-style: italic"> {{ commande.reference }} </span> </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="checkout-section mt-150 mb-150">
+        <div class="container">
+            <div class="row">
+                <!-- Colonne gauche : Informations de la commande et Détails des produits -->
+                <div class="col-lg-8">
+                    <!-- Informations de la commande -->
+                    <div class="order-details-wrap mb-4">
+                        <h3>Informations de la commande</h3>
+                        <table class="order-details">
+                            <tbody>
+                            <tr>
+                                <td><strong>Numéro de commande</strong></td>
+                                <td>{{ commande.reference }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Date de commande</strong></td>
+                                <td>{{ commande.dateCommande|date('d/m/Y') }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Adresse de livraison</strong></td>
+                                <td>{{ commande.addresseLivraison }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mode de paiement</strong></td>
+                                <td>{{ commande.modePaiement }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Statut de la commande</strong></td>
+                                <td><span class="badge badge-info">{{ commande.status }}</span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Détails des produits -->
+                    <div class="order-details-wrap">
+                        <h3>Détails des produits</h3>
+                        <table class="order-details">
+                            <thead>
+                            <tr>
+                                <th>Produit</th>
+                                <th>Quantité</th>
+                                <th>Montant</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in commande.panierItems %}
+                                <tr>
+                                    <td>{{ item.fruit.nom }}</td>
+                                    <td>{{ item.quantite }}</td>
+                                    <td>{{ item.prixSousTotal | price }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Colonne droite : Résumé et Détails de la facture -->
+                <div class="col-lg-4">
+                    <!-- Résumé de la commande -->
+                    <div class="order-summary mb-4">
+                        <h3>Résumé de la commande</h3>
+                        <p><strong>Statut de la commande :</strong> {{ commande.status }}</p>
+                        <p><strong>Total à payer :</strong> {{ commande.facture.montantTotal | price }}</p>
+                        <p><strong>Frais de livraison :</strong> {{ 2 | price }}</p>
+                    </div>
+
+                    <!-- Détails de la facture -->
+                    <div class="order-details-wrap">
+                        <h3>Détails de la facture</h3>
+                        <table class="order-details">
+                            <tbody>
+                            <tr>
+                                <td><strong>Montant total (hors livraison)</strong></td>
+                                <td>
+                                    {% if commande.facture and commande.facture.montantTotal is not null %}
+                                        {{ (commande.facture.montantTotal - 2) | price }}
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Livraison</strong></td>
+                                <td>{{ 2 | price }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total à payer</strong></td>
+                                <td>{{ commande.facture.montantTotal | price }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Statut de la facture</strong></td>
+                                <td><span class="badge badge-warning">{{ commande.facture.status }}</span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Bouton retour -->
+                    <a href="{{ path('app_test_index') }}" class="btn btn-primary mt-4">Retour à l'accueil</a>
+                    {% if commande.status == "En attente de paiement" %}
+                        <a href="{{ path('app_payement', {id_commande: commande.id}) }}" class="btn btn-success mt-4">Effectuer le paiement</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

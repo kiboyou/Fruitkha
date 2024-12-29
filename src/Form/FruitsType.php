@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class FruitsType extends AbstractType
 {
@@ -25,6 +26,15 @@ class FruitsType extends AbstractType
             'mapped' => false,  // Cela signifie que l'image n'est pas directement liée à une entité
             'required' => false,
             'attr' => ['accept' => 'image/*'], // Pour accepter uniquement les images
+            'constraints' => [
+                new File([
+                    'maxSize' => '5M',
+                    'mimeTypes' => [
+                        'image/*',
+                    ],
+                    'mimeTypesMessage' => 'Veuillez uploader une image valide',
+                ]),
+            ],
         ])
          ->add('Categorie', EntityType::class, [
                 'class' => Categorie::class,

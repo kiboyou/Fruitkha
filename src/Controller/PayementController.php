@@ -20,7 +20,18 @@ class PayementController extends AbstractController
     public function index($id_commande, CommandeRepository $commandeRepository,EntityManagerInterface $entityManager, RouterInterface $router): Response
     {
         Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
-        $YOUR_DOMAIN = $_ENV['DOMAIN_NAME'];
+
+        //verification de l'url de base
+        $serverHost = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'];
+
+        // S'assurer que le bon protocole est utilisé (http ou https)
+        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+
+        // Si l'utilisateur est sur localhost ou 127.0.0.1, on utilise le même hôte
+        // Sinon, on utilise le domaine de production configuré dans .env
+        $YOUR_DOMAIN = $protocol . '://' . $serverHost;
+
+        //$YOUR_DOMAIN = $_ENV['DOMAIN_NAME'];
         $commande = $commandeRepository->findOneBy([
             'id' => $id_commande,
             'client' => $this->getUser()

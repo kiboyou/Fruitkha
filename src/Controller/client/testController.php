@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class testController extends AbstractController
 {
-    #[Route('/test', name: 'app_test_index', methods: ['GET'])]
+    #[Route('/user/test', name: 'app_test_index', methods: ['GET'])]
     public function index(FruitsRepository $fruitsRepository): Response
     {
         return $this->render('test/index.html.twig',[

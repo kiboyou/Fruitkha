@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CommandeController extends AbstractController
 {
-    #[Route('/order', name: 'app_commande')]
+    #[Route('/user/order', name: 'app_commande')]
     public function index(Cart $cart, Security $security): Response
     {
         //verifie si l'user est connecte
@@ -35,15 +35,15 @@ class CommandeController extends AbstractController
         ]);
     }
 
-    #[Route('/order/validate', name: 'app_commande_valide')]
+    #[Route('/user/order/validate', name: 'app_commande_valide')]
     public function finaliser(Cart $cart, Security $security, Request $request, EntityManagerInterface $entityManager): Response
     {
-        if($request->getMethod() !== 'POST'){
-            return $this->redirectToRoute('app_cart');
-        }
         //verifie si l'user est connecte
         if(!$security->getUser()){
             return $this->redirectToRoute('user_login');
+        }
+        if($request->getMethod() !== 'POST'){
+            return $this->redirectToRoute('app_cart');
         }
 
         //recuperer les donnees du formulaire
@@ -144,9 +144,12 @@ class CommandeController extends AbstractController
 
         return $this->redirectToRoute("app_commande_recap", ['id' => $commande->getId()]);
     }
-    #[Route('/order/recap/{id}/{motif}', name: 'app_commande_recap', defaults: ['motif' => null])]
-    public function recapitulatif(int $id, EntityManagerInterface $entityManager, $motif): Response
+    #[Route('/user/order/recap/{id}/{motif}', name: 'app_commande_recap', defaults: ['motif' => null])]
+    public function recapitulatif(int $id, EntityManagerInterface $entityManager, $motif,Security $security): Response
     {
+        if(!$security->getUser()){
+            return $this->redirectToRoute('user_login');
+        }
         if($motif === 'annulation'){
             $this->addFlash('info', 'Paiement annulé: Veuillez réessayer');
         }elseif ($motif === 'success') {

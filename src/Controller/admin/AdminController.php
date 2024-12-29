@@ -11,14 +11,18 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class AdminController extends AbstractController
 {
-    #[Route('/admin/dasboard', name: 'admin_dasboard')]
-    public function index(EntityManagerInterface $entityManager): Response
+    #[Route('/admin/dashboard', name: 'admin_dashboard')]
+    public function index(EntityManagerInterface $entityManager, Security $security): Response
     {
+            if(!$security->getUser()){
+                return $this->redirectToRoute('admin_login');
+            }
             // Récupérer les comptages
             $clientsCount = $entityManager->getRepository(User::class)->count([]);
             $salesAmount = $entityManager->getRepository(Facture::class)->count([]);

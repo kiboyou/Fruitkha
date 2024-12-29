@@ -9,9 +9,14 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends AbstractController
 {
-    #[Route('/login_admin', name: 'admin_login')]
+    #[Route('/admin/login', name: 'admin_login')]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
+         // Si l'utilisateur est déjà connecté, on le redirige vers le tableau de bord
+        if ($this->getUser()) {
+            return $this->redirectToRoute('admin_dasboard');
+        }
+
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 

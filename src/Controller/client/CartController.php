@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CartController extends AbstractController
 {
-    #[Route('/mon-panier', name: 'app_cart')]
+    #[Route('/user/mon-panier', name: 'app_cart')]
     public function index(Cart $cart): Response
     {
         return $this->render('cart/index.html.twig', [
@@ -21,7 +21,7 @@ class CartController extends AbstractController
             'total' => $cart->getTotalPriceCart()
         ]);
     }
-    #[Route('/cart/add/{id}', name: 'app_cart_add')]
+    #[Route('/user/cart/add/{id}', name: 'app_cart_add')]
     public function add($id, Cart $cart, FruitsRepository $fruitsRepository, Request $request): Response
     {
         $fruit = $fruitsRepository->findOneBy(['id' => $id]);
@@ -31,7 +31,7 @@ class CartController extends AbstractController
         return $this->redirect($request->headers->get('referer'));
     }
 
-    #[Route('/cart/decrease/{id}', name: 'app_cart_decrease')]
+    #[Route('/user/cart/decrease/{id}', name: 'app_cart_decrease')]
     public function decrease($id, Cart $cart): Response
     {
         $cart->decrease($id);
@@ -39,7 +39,7 @@ class CartController extends AbstractController
         $this->addFlash('success', 'Votre produit a bien été supprimé du panier');
         return $this->redirectToRoute('app_cart');
     }
-    #[Route('/cart/remove', name: 'app_cart_remove')]
+    #[Route('/user/cart/remove', name: 'app_cart_remove')]
     public function remove(Cart $cart): Response
     {
         $cart->remove();
@@ -47,7 +47,7 @@ class CartController extends AbstractController
         $this->addFlash('warning', 'Votre panier a bien été supprimé');
         return $this->redirectToRoute('app_cart');
     }
-    #[Route('/cart/removeproduct/{id}', name: 'app_cart_remove_product')]
+    #[Route('/user/cart/removeproduct/{id}', name: 'app_cart_remove_product')]
     public function removeProduct($id, Cart $cart): Response
     {
         $cart->removeProduct($id);

@@ -14,59 +14,47 @@ security:
             pattern: ^/(_(profiler|wdt)|(dist|css|js)|css|images|js)/
             security: false
 
-        admin:
-#            pattern: ^/admin
+        admin_area:
+            pattern: ^/admin
             provider: app_user_provider
 #            stateless: false
             form_login:
                 login_path: admin_login
                 check_path: admin_login
                 default_target_path: admin_dasboard
+                always_use_default_target_path: false
 #                username_parameter: email
 #                password_parameter: password
             logout:
                 path: admin_logout
                 target: admin_login
-            access_denied_url: admin_dasboard  # redirection en cas d'accès interdit
+            security: true
 
-        user:
-#            pattern: ^/(compte|order)
+            access_denied_url: admin_login
+
+        user_area:
+            pattern: ^/user
             provider: app_user_provider
 #            stateless: false
             form_login:
                 login_path: user_login
                 check_path: user_login
-                default_target_path: app_cart
+                #default_target_path: app_cart
+                always_use_default_target_path: false
 #                username_parameter: email
 #                password_parameter: password
             logout:
                 path: user_logout
                 target: user_login
+            security: true
 
-#        main:
-#            logout:
-#                path: app_logout
-#            form_login:
-#                login_path: app_login
-#                check_path: app_login
-#            lazy: true
-#            provider: app_user_provider
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/compte, roles: ROLE_USER }
-        #- { path: ^/order, roles: ROLE_USER }
-        - { path: ^/admin, roles: ROLE_ADMIN }
-#        - { path: ^/profile, roles: ROLE_USER }
-#        - { path: /admin/dasboard, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-
+        #- { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        #- { path: ^/admin, roles: ROLE_ADMIN }
+        #- { path: ^/user/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       # - { path: /, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        #- { path: ^/user, roles: ROLE_USER }
 
 when@test:
     security:

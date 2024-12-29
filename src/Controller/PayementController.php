@@ -16,7 +16,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 class PayementController extends AbstractController
 {
-    #[Route('/order/paiement/{id_commande}', name: 'app_payement')]
+    #[Route('/user/order/paiement/{id_commande}', name: 'app_payement')]
     public function index($id_commande, CommandeRepository $commandeRepository,EntityManagerInterface $entityManager, RouterInterface $router): Response
     {
         Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
@@ -38,7 +38,7 @@ class PayementController extends AbstractController
         ]);
 
         if(!$commande){
-            return $this->redirectToRoute('app_test_index');
+            return $this->redirectToRoute('app_home');
         }
 
         $product_for_stripe = [];
@@ -82,7 +82,7 @@ class PayementController extends AbstractController
             $product_for_stripe,
           ]],
           'mode' => 'payment',
-          'success_url' => $YOUR_DOMAIN . '/order/paiement/success/{CHECKOUT_SESSION_ID}',
+          'success_url' => $YOUR_DOMAIN . '/user/order/paiement/success/{CHECKOUT_SESSION_ID}',
           'cancel_url' => $cancel_url,
         ]);
 
@@ -92,7 +92,7 @@ class PayementController extends AbstractController
         return $this->redirect($checkout_session->url);
     }
 
-    #[Route('/order/paiement/success/{id_session_stripe}', name: 'app_payement_success')]
+    #[Route('/user/order/paiement/success/{id_session_stripe}', name: 'app_payement_success')]
     public function success($id_session_stripe,  CommandeRepository $commandeRepository, EntityManagerInterface $entityManager): Response
     {
         Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);

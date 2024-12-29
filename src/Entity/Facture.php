@@ -9,6 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: FactureRepository::class)]
 class Facture
 {
+    public function __construct()
+    {
+        $this->montant_total = 0.0;
+    }
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

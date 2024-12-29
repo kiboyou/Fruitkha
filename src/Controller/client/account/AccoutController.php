@@ -3,6 +3,7 @@
 namespace App\Controller\client\account;
 
 use App\Form\PasswordUserType;
+use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,9 +14,12 @@ use Symfony\Component\Routing\Attribute\Route;
 class AccoutController extends AbstractController
 {
     #[Route('/compte', name: 'app_account')]
-    public function index(): Response
+    public function index(CommandeRepository $commandeRepository): Response
     {
-        return $this->render('account/index.html.twig');
+        $commandes = $commandeRepository->findBy(['client' => $this->getUser()]);
+        return $this->render('account/index.html.twig', [
+            'commandes' => $commandes
+        ]);
     }
 
     #[Route('/compte/modifier_password', name: 'app_account_modifierpassword')]

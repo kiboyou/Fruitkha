@@ -46,6 +46,12 @@ class Commande
     #[ORM\OneToMany(targetEntity: Livraison::class, mappedBy: 'commande')]
     private Collection $livraisons;
 
+    #[ORM\Column(length: 255)]
+    private ?string $reference = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $stripe_session_id = null;
+
     public function __construct()
     {
         $this->panierItems = new ArrayCollection();
@@ -190,6 +196,30 @@ class Commande
                 $livraison->setCommande(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(string $reference): static
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getStripeSessionId(): ?string
+    {
+        return $this->stripe_session_id;
+    }
+
+    public function setStripeSessionId(?string $stripe_session_id): static
+    {
+        $this->stripe_session_id = $stripe_session_id;
 
         return $this;
     }
